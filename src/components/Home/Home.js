@@ -8,7 +8,7 @@ import SearchBar from '../elements/SearchBar/SearchBar';
 import Spinner from '../elements/Spinner/Spinner';
 import LoadMoreBtn from '../elements/LoadMoreBtn/LoadMoreBtn';
 import MovieThumb from '../elements/MovieThumb/MovieThumb';
-
+var count = 0 ;
 
 class Home extends Component{
     state = {
@@ -18,14 +18,23 @@ class Home extends Component{
         searchTerm : '',
         currentPage : 0,
         totalPage : 0 
+        
     } 
 
     componentDidMount(){
+
+        if(localStorage.getItem('HomeState')){
+
+            const state = JSON.parse(localStorage.getItem('HomeState'));
+            this.setState({ ...state})
+
+        }
+        else{
         this.setState({loading : true})
         const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
         this.fetchItems(endpoint)
     }
-
+    }
     searchItems = (searchTerm) =>{
         console.log(searchTerm)
         let endpoint = ''
@@ -57,22 +66,36 @@ class Home extends Component{
         }
         this.fetchItems(endpoint)
     }
-
+     
+     
+     
     fetchItems = (endpoint) =>{
+     
+    
         fetch(endpoint)
         .then(result => result.json())
         .then(result => {   
+         
+         count += result.results.length
+         console.log(count)
+         var  ran = Math.floor((Math.random() * count) + 0);
          this.setState({
             // movies : [...this.state.movies , ...result.results],
             // HeroImage : this.state.HeroImage || result.results[0],
             // loading : false , 
             // currentPage : result.page , 
             // totalPage : result.total_pages
+            
             movies: [...this.state.movies, ...result.results],
-            HeroImage: this.state.HeroImage || result.results[0],
+            HeroImage: this.state.HeroImage || result.results[ran],
             loading: false,
             currentPage: result.page,
             totalPages: result.total_pages 
+        }, () => {
+            if(this.state.searchTerm === "")
+            {
+                localStorage.setItem('HomeState', JSON.stringify(this.state));
+            }
         })
             
         })
@@ -86,6 +109,9 @@ class Home extends Component{
                 image = {`${IMAGE_BASE_URL}${BACKDROP_SIZE}${this.state.HeroImage.backdrop_path}`}
                 title = {this.state.HeroImage.original_title}
                 text = {this.state.HeroImage.overview}
+                clickable = {true}
+                movieId = {this.state.HeroImage.id}
+                
             />
             <SearchBar callback={this.searchItems} />
             </div> : null }

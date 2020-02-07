@@ -2,7 +2,7 @@
   background-size: 100%, cover !important;
   background-position: center, center !important;
   width: 100%;
-  height: 600px;
+  height: 500px;
   position: relative;
   animation: animateHeroimage 1s;
 }
@@ -46,6 +46,15 @@
   color: #fff;
 }
 
+.rmdb-heroimage-text a {
+  font-family: 'Abel', sans-serif;
+  font-size:48px;
+  font-weight: bolder;
+  text-decoration: none;
+
+
+  color:#fff;
+}
 @media screen and (max-width: 720px) {
   .rmdb-heroimage-text {
     max-width: 100%;

@@ -1,6 +1,6 @@
 import React from 'react';
 import './HeroImage.css';
-
+import {Link} from 'react-router-dom';
 const HeroImage = (props) => {
     return (
         <div className="rmdb-heroimage"
@@ -15,7 +15,9 @@ const HeroImage = (props) => {
         >
             <div className="rmdb-heroimage-content"  >
                 <div className="rmdb-heroimage-text">
-                <h1>{props.title}</h1>
+                <Link to = {{ pathname : `/${props.movieId}` }}>
+                <a>{props.title}</a>
+                </Link>
                 <p>{props.text}</p>
                 </div>
 

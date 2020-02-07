@@ -66,12 +66,18 @@ class Movie extends React.Component {
       }
     
       componentDidMount() {
+        if(localStorage.getItem(`${this.props.match.params.movieId}`))
+        {
+          const movieState = JSON.parse(localStorage.getItem(`${this.props.match.params.movieId}`) )
+          this.setState({ ...movieState})
+        }
+        else{
         this.setState({ loading: true })
         // First fetch the movie ...
         const endpoint = `${API_URL}movie/${this.props.match.params.movieId}?api_key=${API_KEY}&language=en-US`;
         this.fetchItems(endpoint);
       }
-    
+      }
       fetchItems = (endpoint) => {
         fetch(endpoint)
         .then(result => result.json())
@@ -92,6 +98,8 @@ class Movie extends React.Component {
                   actors: result.cast,
                   directors,
                   loading: false
+                }, () => { 
+                  localStorage.setItem(`${this.props.match.params.movieId}`, JSON.stringify(this.state))
                 })
                 console.log(this.state.actors)
               })
