@@ -135,7 +135,7 @@ class Home extends Component{
               <LoadMoreBtn text="Load More" onClick={this.LoadMoreBtn} />
               : null
             }
-            </div>           
+            </div   >           
             </div>
         )
     }

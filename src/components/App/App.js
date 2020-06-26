@@ -17,7 +17,7 @@ const App = () => {
             <Route component={Movie} path="/:movieId" exact />
             <Route component = {NotFound} />
             </Switch>
-            </React.Fragment>
+            </React.Fragment>   
             </BrowserRouter>
         
     )
